@@ -1,0 +1,11 @@
+import {chromium} from '@playwright/test';
+import {mkdir} from 'node:fs/promises';
+await mkdir('test-results',{recursive:true});
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:1050}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:3000');await page.getByText('최근 측정 응답',{exact:true}).waitFor();
+await page.screenshot({path:'test-results/dashboard.png',fullPage:true});
+await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/mobile.png',fullPage:true});
+console.log(JSON.stringify({pageErrors:errors,desktop:'test-results/dashboard.png',mobile:'test-results/mobile.png'}));
+await browser.close();

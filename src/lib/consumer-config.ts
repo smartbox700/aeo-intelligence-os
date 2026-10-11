@@ -1,0 +1,3 @@
+import type {ConsumerScreen} from './types';
+export const CONSUMER_SERVICES:Record<ConsumerScreen,{label:string;provider:string;url:string}>={CHATGPT_WEB_SEARCH:{label:'ChatGPT 웹 검색',provider:'ChatGPT',url:'https://chatgpt.com/'},GEMINI_CONSUMER_SEARCH:{label:'Gemini 소비자용 검색',provider:'Gemini',url:'https://gemini.google.com/'},NAVER_AI_BRIEFING:{label:'네이버 AI 브리핑',provider:'네이버 AI 브리핑',url:'https://www.naver.com/'}};
+export const evidenceQuestions=['홍제역 근처 임플란트 상담할 만한 치과는?','서대문구 임플란트 치과를 비교해줘.','홍제역에서 토요일 진료하는 임플란트 치과는?','홍제역 근처 임플란트 치과의 의료진과 진료 분야를 비교해줘.','홍제역 근처 치과의 예약 가능 여부와 예약 방법을 확인해줘.'];

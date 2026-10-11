@@ -1,0 +1,178 @@
+generator client {
+ provider = "prisma-client-js"
+ output = "../src/generated/prisma"
+}
+datasource db {
+ provider = "postgresql"
+ url = env("DATABASE_URL")
+}
+model Organization {
+ id String @id
+ name String
+ projects Project[]
+}
+model Project {
+ id String @id
+ organizationId String
+ organization Organization @relation(fields:[organizationId], references:[id], onDelete:Cascade)
+ name String
+ operations Json?
+ clients ClientEntity[]
+ competitors CompetitorEntity[]
+ sets QuestionSet[]
+ runs ObservationRun[]
+ audits WebsiteAudit[]
+ tasks OptimizationTask[]
+ reports Report[]
+ batches MeasurementBatch[]
+}
+model ClientEntity {
+ id String @id
+ projectId String
+ project Project @relation(fields:[projectId], references:[id], onDelete:Cascade)
+ name String
+ payload Json
+}
+model CompetitorEntity {
+ id String @id
+ projectId String
+ project Project @relation(fields:[projectId], references:[id], onDelete:Cascade)
+ name String
+ payload Json
+}
+model QuestionSet {
+ id String @id
+ projectId String
+ project Project @relation(fields:[projectId], references:[id], onDelete:Cascade)
+ name String
+ questions Question[]
+}
+model Question {
+ id String @id
+ setId String
+ set QuestionSet @relation(fields:[setId], references:[id], onDelete:Cascade)
+ text String
+ payload Json
+ responses AIResponse[]
+}
+model AIProvider {
+ id String @id
+ name String
+ runs ObservationRun[]
+}
+model ObservationRun {
+ id String @id
+ projectId String
+ project Project @relation(fields:[projectId], references:[id], onDelete:Cascade)
+ providerId String
+ provider AIProvider @relation(fields:[providerId], references:[id])
+ kind String
+ observedAt DateTime
+ region String
+ model String
+ cost Decimal? @db.Decimal(12,6)
+ responses AIResponse[]
+ batchId String?
+ batch MeasurementBatch? @relation(fields:[batchId], references:[id], onDelete:SetNull)
+ status String @default("LEGACY")
+ searchUsed Boolean?
+ metadata Json?
+}
+model AIResponse {
+ id String @id
+ runId String
+ run ObservationRun @relation(fields:[runId], references:[id], onDelete:Cascade)
+ questionId String
+ question Question @relation(fields:[questionId], references:[id])
+ rawText String
+ analysisVersion String
+ payload Json
+ mentions Mention[]
+ citations CitationSource[]
+}
+model Mention {
+ id String @id @default(cuid())
+ responseId String
+ response AIResponse @relation(fields:[responseId], references:[id], onDelete:Cascade)
+ entityId String
+ role String
+ position Int
+ ambiguous Boolean
+ name String
+}
+model CitationSource {
+ id String @id @default(cuid())
+ responseId String
+ response AIResponse @relation(fields:[responseId], references:[id], onDelete:Cascade)
+ url String
+ title String?
+}
+model WebsiteAudit {
+ id String @id
+ projectId String
+ project Project @relation(fields:[projectId], references:[id], onDelete:Cascade)
+ kind String
+ payload Json
+ tasks OptimizationTask[]
+}
+model OptimizationTask {
+ id String @id
+ projectId String
+ project Project @relation(fields:[projectId], references:[id], onDelete:Cascade)
+ auditId String
+ audit WebsiteAudit @relation(fields:[auditId], references:[id], onDelete:Cascade)
+ status String
+ payload Json
+}
+model Report {
+ id String @id @default(cuid())
+ projectId String
+ project Project @relation(fields:[projectId], references:[id], onDelete:Cascade)
+ kind String
+ createdAt DateTime @default(now())
+ rowCount Int
+ payload Json?
+}
+model MeasurementBatch {
+ id String @id
+ projectId String
+ project Project @relation(fields:[projectId], references:[id], onDelete:Cascade)
+ idempotencyKey String
+ status String
+ startedAt DateTime
+ payload Json
+ runs ObservationRun[]
+ @@unique([projectId,idempotencyKey])
+}
+
+model StaffUser {
+ id String @id
+ namespace String @default("local")
+ username String
+ name String
+ role String
+ passwordHash String
+ projectIds String[]
+ disabled Boolean @default(false)
+ createdAt DateTime @default(now())
+ sessions StaffSession[]
+ @@unique([namespace,username])
+}
+model StaffSession {
+ id String @id
+ tokenHash String @unique
+ userId String
+ user StaffUser @relation(fields:[userId],references:[id],onDelete:Cascade)
+ expiresAt DateTime
+ createdAt DateTime @default(now())
+}
+model AccessEvent {
+ id String @id
+ namespace String @default("local")
+ userId String?
+ projectId String?
+ action String
+ success Boolean
+ at DateTime @default(now())
+ @@index([namespace,at])
+}

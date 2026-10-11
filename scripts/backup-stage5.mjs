@@ -1,0 +1,4 @@
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
+import {PrismaClient} from '../src/generated/prisma/index.js';
+const env=await readFile('.env','utf8');process.env.DATABASE_URL??=env.split(/\r?\n/).find(s=>s.startsWith('DATABASE_URL='))?.slice(13).replace(/^"|"$/g,'');const db=new PrismaClient();
+try{const projects=await db.project.findMany({include:{clients:true,competitors:true,sets:{include:{questions:true}},runs:{include:{responses:{include:{mentions:true,citations:true}}}},audits:true,tasks:true,reports:true,batches:true}});const organizations=await db.organization.findMany();const providers=await db.aIProvider.findMany();await mkdir('data/backups',{recursive:true});const file='data/backups/stage5-db-before-'+Date.now()+'.json';await writeFile(file,JSON.stringify({at:new Date().toISOString(),organizations,providers,projects},null,2));console.log('전체 관계 데이터 JSON 백업 완료 · 프로젝트 '+projects.length+'개 · '+file);}finally{await db.$disconnect();}

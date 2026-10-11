@@ -1,0 +1,3 @@
+import type {FullConfig} from '@playwright/test';
+import {readFile} from 'node:fs/promises';
+export default async function teardown(config:FullConfig){const web=Array.isArray(config.webServer)?config.webServer[0]:config.webServer;const namespace=web?.env?.AEO_AUTH_NAMESPACE;if(!namespace?.startsWith('e2e-'))throw new Error('테스트 인증 namespace 확인 실패');const env=await readFile('.env','utf8');process.env.DATABASE_URL=env.split(/\r?\n/).find(s=>s.startsWith('DATABASE_URL='))!.slice(13).replace(/^"|"$/g,'');const {PrismaClient}=await import('../../src/generated/prisma/index.js');const db=new PrismaClient();try{await db.staffUser.deleteMany({where:{namespace}});await db.accessEvent.deleteMany({where:{namespace}});}finally{await db.$disconnect();}}

@@ -1,0 +1,26 @@
+import {randomUUID,randomBytes,scrypt as cryptoScrypt,timingSafeEqual,createHash} from 'node:crypto';
+import {promisify} from 'node:util';
+import {NextRequest,NextResponse} from 'next/server';
+import {prisma} from './db';
+import type {ProjectData} from './types';
+export const ROLES=['OWNER','MANAGER','ANALYST','VIEWER'] as const;
+export type StaffRole=typeof ROLES[number];
+export type Staff={id:string;username:string;name:string;role:StaffRole;projectIds:string[];disabled:boolean};
+export const namespace=()=>process.env.AEO_AUTH_NAMESPACE??'local';
+const scrypt=promisify(cryptoScrypt);const hash=(s:string)=>createHash('sha256').update(s).digest('hex');
+export async function hashPassword(password:string){const salt=randomBytes(16).toString('hex');return salt+':'+(await scrypt(password,salt,64) as Buffer).toString('hex');}
+export async function verifyPassword(password:string,stored:string){const [salt,value]=stored.split(':');if(!salt||!value)return false;const actual=await scrypt(password,salt,64) as Buffer;const expected=Buffer.from(value,'hex');return actual.length===expected.length&&timingSafeEqual(actual,expected);}
+export const publicStaff=(u:{id:string;username:string;name:string;role:string;projectIds:string[];disabled:boolean}):Staff=>({id:u.id,username:u.username,name:u.name,role:u.role as StaffRole,projectIds:u.projectIds,disabled:u.disabled});
+export class AuthError extends Error{constructor(message:string,public status:number){super(message);}}
+export async function accessEvent(user:Staff|null,action:string,projectId?:string,success=true){await prisma.accessEvent.create({data:{id:randomUUID(),namespace:namespace(),userId:user?.id,action:action.slice(0,100),projectId,success}});}
+export async function sessionUser(token:string|undefined):Promise<Staff|null>{if(!token||!/^[a-f0-9]{64}$/.test(token))return null;const s=await prisma.staffSession.findUnique({where:{tokenHash:hash(token)},include:{user:true}});return s&&s.expiresAt.getTime()>Date.now()&&s.user.namespace===namespace()&&!s.user.disabled?publicStaff(s.user):null;}
+export async function requireStaff(req:NextRequest,roles:readonly StaffRole[]=['OWNER','MANAGER','ANALYST']){const user=await sessionUser(req.cookies.get('aeo_session')?.value);if(!user)throw new AuthError('로그인이 필요합니다.',401);if(!roles.includes(user.role)){await accessEvent(user,'권한 거부:'+req.nextUrl.pathname,undefined,false);throw new AuthError('직원 권한이 없습니다.',403);}return user;}
+export function assertProjectAccess(user:Staff,id:string){if(user.role!=='OWNER'&&!user.projectIds.includes(id))throw new AuthError('허용되지 않은 고객사 프로젝트입니다.',403);}
+export function allowedProjects(user:Staff,projects:ProjectData[]){return projects.filter(p=>p.organizationId==='local-org'&&(user.role==='OWNER'||user.projectIds.includes(p.id)));}
+export function safeWorkspaceProject(p:ProjectData,user:Staff):ProjectData{const v=structuredClone(p);for(const r of v.salesReports??[])for(const a of r.artifacts)a.pdfBase64="";if(user.role!=='OWNER'&&v.operations){v.operations.finance={invoices:[],costs:[]};v.operations.sales={...v.operations.sales,estimatedAmount:null,contractRevenue:null,consultationNotes:'',requirements:'',proposalScope:'',serviceScope:''};for(const t of v.tasks)if(t.execution)for(const log of t.execution.workLogs)log.hourlyCost=null;}if(user.role==='ANALYST'&&v.operations){v.operations.onboarding.contactName='';v.operations.onboarding.contactChannel='';v.operations.onboarding.businessGoal='';}if(user.role!=='OWNER'&&v.operations?.pilot){const repo=v.operations.pilot;for(const a of repo.agreements){for(const ver of a.versions)ver.terms.externalCostCap=null;for(const w of a.work)w.plannedExternalCost=null;for(const log of a.workLogs){log.hourlyCost=null;log.externalCost=null;}}repo.proposals=[];repo.conversions=[];repo.documents=repo.documents.filter(d=>d.kind!=='CONTRACT');for(const r of v.pilotReports??[])r.data.scope.externalCostCap=null;}if(user.role==='ANALYST'){if(v.operations)delete v.operations.pilot;v.pilotReports=[];}return v;}
+export async function grantCreatedProject(user:Staff,id:string){if(user.role!=='OWNER')await prisma.staffUser.update({where:{id:user.id},data:{projectIds:{push:id}}});}
+export async function createSession(user:Staff){const token=randomBytes(32).toString('hex');await prisma.staffSession.create({data:{id:randomUUID(),userId:user.id,tokenHash:hash(token),expiresAt:new Date(Date.now()+8*3600000)}});return token;}
+export async function destroySession(token:string|undefined){if(token)await prisma.staffSession.deleteMany({where:{tokenHash:hash(token),user:{namespace:namespace()}}});}
+export function sessionCookie(response:NextResponse,token:string,req:NextRequest){response.cookies.set('aeo_session',token,{httpOnly:true,sameSite:'strict',secure:req.nextUrl.protocol==='https:',path:'/',maxAge:8*3600});return response;}
+export function failure(e:unknown){return NextResponse.json({error:(e as Error).message},{status:e instanceof AuthError?e.status:400});}
+export function sameOrigin(req:NextRequest){const origin=req.headers.get('origin');if(origin&&(new URL(origin).host!==req.headers.get('host')||new URL(origin).protocol!==req.nextUrl.protocol))throw new AuthError('다른 출처의 요청을 차단합니다.',403);}

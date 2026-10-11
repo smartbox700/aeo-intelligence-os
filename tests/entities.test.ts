@@ -1,0 +1,15 @@
+import {describe,it,expect} from 'vitest';
+import {extractEntities,mentionsFromAnalysis} from '../src/lib/entity-analysis';
+import {seed} from '../src/lib/seed';
+import {reviewEntity} from '../src/lib/review';
+describe('문맥·근거 기반 업체 식별',()=>{
+ it('추천 후보와 명시적 목록 번호를 기록',()=>{const c=seed().projects[0].client;const text='1. **홍제 A치과** — 위치와 예약 정보를 확인하세요.\n2. **홍제 B치과** — 비교 후보입니다.';const a=extractEntities(text,c);expect(a.entities).toHaveLength(2);expect(a.entities[0]).toMatchObject({role:'client',context:'RECOMMENDATION',introductionOrder:1,review:'ACCEPTED'});expect(a.entities[0].evidenceQuote).toBe(text.split('\n')[0]);});
+ it('순서 없는 후보에 소개 번호를 생성하지 않음',()=>{const a=extractEntities('홍제 A치과를 상담 후보로 검토하세요.',seed().projects[0].client);expect(a.entities[0].context).toBe('RECOMMENDATION');expect(a.entities[0].introductionOrder).toBeNull();});
+ it('배경 설명과 추천 부정을 구분',()=>{const c=seed().projects[0].client;expect(extractEntities('홍제 A치과의 등록 명칭을 확인했습니다.',c).entities[0].context).toBe('BACKGROUND');expect(extractEntities('홍제 A치과는 검증되지 않아 추천하지 않습니다.',c).entities[0].context).toBe('NEGATED');});
+ it('특정 업체 없는 일반 안내를 올바르게 분석',()=>{const a=extractEntities('임플란트 치과를 고를 때 의료진 자격과 위치를 확인하세요. 특정 병원을 추천할 수 없습니다.',seed().projects[0].client);expect(a.entities).toHaveLength(0);expect(a.generalGuidance).toBe(true);expect(a.status).toBe('READY');});
+ it('신규 병원은 추출하되 실존·동명이인 검토 대기',()=>{const a=extractEntities('1. **가상미소치과** — 위치 정보는 미확인입니다.',seed().projects[0].client);expect(a.entities[0]).toMatchObject({name:'가상미소치과',role:'discovered',review:'PENDING',introductionOrder:1});expect(a.status).toBe('REVIEW_REQUIRED');});
+ it('공유 별칭과 지역 불일치는 정확 고객 언급으로 확정하지 않음',()=>{const c=seed().projects[0].client;c.competitors[0].aliases=['홍제 A치과'];const a=extractEntities('홍제 A치과를 비교하세요.',c);expect(a.entities[0].role).toBe('unresolved');expect(mentionsFromAnalysis(a)[0].ambiguous).toBe(true);const d=seed().projects[0].client;expect(extractEntities('홍제 A치과 — 부산에 위치합니다.',d).entities[0].role).toBe('unresolved');});
+ it('담당자 수정 이력·원문을 보존하며 식별을 확정',()=>{const p=seed().projects[0];const r=p.responses[0];r.rawText='1. **가상미소치과** — 예약 정보를 확인하세요.';r.entityAnalysis=extractEntities(r.rawText,p.client);const e=r.entityAnalysis.entities[0];reviewEntity(p,r,{entityId:e.id,matchedEntityId:p.client.competitors[0].id,context:'RECOMMENDATION',review:'ACCEPTED',reason:'공식 도메인과 주소 대조 완료'});expect(r.entityAnalysis.status).toBe('READY');expect(r.entityAnalysis.reviewHistory).toHaveLength(1);expect(r.mentions[0].role).toBe('competitor');expect(r.rawText).toContain('가상미소치과');});
+ it('같은 문단의 다른 업체에 부정 문맥을 전파하지 않음',()=>{const a=extractEntities('홍제 A치과는 추천할 수는 없습니다. 홍제 B치과를 후보로 비교하세요.',seed().projects[0].client);expect(a.entities.find(e=>e.role==='client')?.context).toBe('NEGATED');expect(a.entities.find(e=>e.role==='competitor')?.context).toBe('RECOMMENDATION');});
+ it('진료 분야가 없는 번호형 브랜드 후보도 검토 대상으로 추출',()=>{const a=extractEntities('1. 삼성전자 — 제품 정보를 확인하세요.\n2. Apple — 공식 구매 정보를 확인하세요.',seed().projects[0].client);expect(a.entities.map(e=>e.name)).toEqual(['삼성전자','Apple']);expect(a.entities.every(e=>e.review==='PENDING')).toBe(true);});
+});
