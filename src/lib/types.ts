@@ -1,7 +1,7 @@
 import type {Operations,ExecutionDetail,ClientReport} from './operations-types';
 import type {StudioRepository,StudioWork} from './studio-types';
 export type DataKind = 'DEMO' | 'MANUAL_UI' | 'MANUAL_OBSERVATION' | 'CONSUMER_UI_MANUAL' | 'API' | 'API_OBSERVATION';
-export type Entity = {preScanRepository?:import("./prescan-types").PreScanRepository;studioRepository?:StudioRepository;id:string; name:string; aliases:string[]; website:string; industry:string; address:string; bookingUrl:string; services:string; experts:string; competitors:Competitor[]; researchStudies?:ResearchStudy[];evidenceFiles?:EvidenceFile[];freeGeminiAttempts?:FreeGeminiAttempt[];analysisProfile?:AnalysisProfile; priorityWeights?:PriorityWeights; websiteChanges?:WebsiteChange[]; createdAt:string};
+export type Entity = {citedDiagnoses?:import("./cited-project").CitedSnapshot[];preScanRepository?:import("./prescan-types").PreScanRepository;studioRepository?:StudioRepository;id:string; name:string; aliases:string[]; website:string; industry:string; address:string; bookingUrl:string; services:string; experts:string; competitors:Competitor[]; researchStudies?:ResearchStudy[];evidenceFiles?:EvidenceFile[];freeGeminiAttempts?:FreeGeminiAttempt[];analysisProfile?:AnalysisProfile; priorityWeights?:PriorityWeights; websiteChanges?:WebsiteChange[]; createdAt:string};
 export type Competitor = {id:string;name:string;aliases:string[];website:string;address?:string;bookingUrl?:string};
 export type Question = {id:string;text:string;intent:string;importance:number;commercialIntent:number;createdAt:string};
 export type Mention = {entityId:string;name:string;role:'client'|'competitor'|'discovered';position:number;ambiguous:boolean};

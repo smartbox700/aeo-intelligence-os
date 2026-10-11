@@ -1,0 +1,18 @@
+import {cp,mkdir,writeFile,symlink} from 'node:fs/promises';
+import path from 'node:path';
+import {spawn} from 'node:child_process';
+import {randomUUID} from 'node:crypto';
+import {backupIntegrated,restoreIntegrated} from './integrated-backup.mjs';
+import {loadEnvironment} from './db-runtime.mjs';
+await loadEnvironment();
+const source=process.cwd();const backup=await backupIntegrated();const restored=await restoreIntegrated(backup.file,backup.keyFile);
+const url=new URL(process.env.DATABASE_URL);url.pathname='/'+restored.database;
+const runtime=path.join(source,'output','stage7-5','cited-integration-'+randomUUID(),'runtime');await mkdir(runtime,{recursive:true});
+for(const name of ['.next','src','tests','scripts','prisma','package.json','playwright.config.ts','tsconfig.json','next-env.d.ts','next.config.ts'])await cp(path.join(source,name),path.join(runtime,name),{recursive:true});
+await symlink(path.join(source,'node_modules'),path.join(runtime,'node_modules'),'junction');
+await writeFile(path.join(runtime,'.env'),`DATABASE_URL=${url.href}\nSTORAGE_MODE=postgres\nAEO_FILES_ROOT=${restored.filesRoot}\nLIVE_AI_ENABLED=false\nFREE_GEMINI_ENABLED=false\nNEXT_TELEMETRY_DISABLED=1\n`,{mode:0o600});
+const env={...process.env,DATABASE_URL:url.href,STORAGE_MODE:'postgres',AEO_FILES_ROOT:restored.filesRoot,LIVE_AI_ENABLED:'false',FREE_GEMINI_ENABLED:'false',NEXT_TELEMETRY_DISABLED:'1'};
+console.log('Isolated CITED tests: '+runtime);
+const child=spawn(process.execPath,['node_modules/@playwright/test/cli.js','test','tests/e2e/cited.spec.ts','tests/e2e/cited-integration.spec.ts','tests/e2e/core.spec.ts','tests/e2e/security.spec.ts'],{cwd:runtime,env,stdio:'inherit',windowsHide:true});
+child.on('error',()=>{console.error('Isolated test runner could not start. Source preserved.');process.exitCode=1;});
+child.on('exit',code=>{process.exitCode=code??1;});

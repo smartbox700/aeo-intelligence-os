@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 test('공개 랜딩, 무관측 리포트, 실제 수동 관측과 OS 접근 보호',async({page,request})=>{
  await page.goto('/');await expect(page.getByRole('heading',{name:'AI의 답변 속에, 우리 브랜드는 어디에 있을까요?'})).toBeVisible();
- expect((await request.get('/api/workspace')).status()).toBe(401);
+ expect((await request.get('/api/workspace')).status()).toBe(401);expect((await request.get('/api/cited-diagnosis?projectId=unknown')).status()).toBe(401);expect((await request.post('/api/cited-diagnosis',{data:{projectId:null}})).status()).toBe(401);
  await page.goto('/os');await expect(page).toHaveURL(/\/login$/);
  await page.goto('/report');await expect(page.getByText('현재 탭에 저장된 진단이 없습니다.',{exact:false})).toBeVisible();
  await page.goto('/diagnosis');await page.getByLabel('브랜드명',{exact:true}).fill('브라우저 테스트 브랜드');await page.getByLabel('지역',{exact:true}).fill('서초구');await page.getByLabel('서비스·분야',{exact:true}).fill('형사 상담');await page.getByRole('button',{name:'질문 생성',exact:true}).click();
