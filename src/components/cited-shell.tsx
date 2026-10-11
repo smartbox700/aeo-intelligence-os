@@ -1,0 +1,4 @@
+import Link from 'next/link';
+import type {ReactNode} from 'react';
+import './cited.css';
+export default function CitedShell({children}:{children:ReactNode}){return <div className="cited"><header className="cited-header"><Link href="/" className="cited-logo"><span>❞</span> CITED<span className="cited-logo-note">AI가 인용하는 브랜드</span></Link><nav aria-label="CITED 메뉴"><Link href="/diagnosis">진단</Link><Link href="/#pricing">가격</Link><Link href="/blog/aeo-marketing-1">가이드</Link><Link href="/os" className="cited-outline">운영자 로그인</Link></nav></header>{children}<footer className="cited-footer"><Link href="/" className="cited-logo">CITED</Link><p>근거로 측정하고, 데이터로 개선합니다.</p><Link href="/diagnosis">무료 수동 진단 시작 ↗</Link><small>브랜드 언급·추천·인용을 구분합니다. AI 응답과 검색 결과의 특정 순위 또는 개선 수치를 보장하지 않습니다.</small></footer></div>;}

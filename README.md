@@ -1,5 +1,7 @@
 # AEO Intelligence OS · 7-5 Operational Readiness
 
+CITED 랜딩·무료 수동 진단·플랫폼별 리포트·실무 가이드를 추가했습니다. 비로그인 첫 화면은 랜딩이며 기존 인증된 운영 화면은 `/os`에서 이용합니다. 진단은 현재 브라우저 탭에 임시 저장하고 JSON 또는 인쇄/PDF로 보관합니다. 서버 고객 DB 자동 연계와 공개 배포는 포함하지 않습니다. 측정 정의·가격 표시·검증 결과는 [CITED 구현 기록](docs/CITED_PUBLIC_MVP.md)을 확인하세요.
+
 7-5는 통합 암호화 백업·별도 DB/파일 복원·오프라인 설치·연속 LOCAL MOCK 리허설을 점검합니다. 준비성 판정과 남은 조건은 [7-5 운영 준비 보고서](docs/STAGE_7_5_READINESS.md), 실제 수동 관측 절차는 [실측 리허설 가이드](docs/MANUAL_PILOT_REHEARSAL.md)를 확인하세요. 실존 고객 관측과 직원 업무시간은 NOT_RUN이며 수주·성과를 보장하지 않습니다.
 
 통합 백업: `npm run db:backup`. 격리 복원: `npm run db:restore:test`. 환경 점검과 오프라인 설치: `node scripts/check-readiness-environment.mjs`. 전체 격리 검증: `npm run validate:readiness` (앞선 오프라인 설치 성공 결과 필요). 백업·키 보관과 지원 범위는 [DB 운영 문서](docs/DB_OPERATIONS.md)를 따릅니다. 원본 환경에서 DB 쓰기 테스트를 직접 실행하지 말고 격리 검증을 사용하세요.
