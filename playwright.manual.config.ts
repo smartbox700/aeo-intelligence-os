@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'./tests/e2e',testMatch:'manual-usability.spec.ts',workers:1,timeout:180000,use:{baseURL:'http://127.0.0.1:3013',browserName:'chromium',channel:'msedge'},webServer:{command:'node scripts/manual-usability.mjs start',url:'http://127.0.0.1:3013/login',reuseExistingServer:false,timeout:180000,env:{AEO_MANUAL_SUPPRESS_PASSWORD:'1',DATABASE_URL:process.env.AEO_MANUAL_REFERENCE_DATABASE_URL!}},reporter:'list'});

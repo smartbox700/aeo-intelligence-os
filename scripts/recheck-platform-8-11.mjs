@@ -1,0 +1,11 @@
+import {readFile,writeFile,cp} from 'node:fs/promises';
+import {spawn} from 'node:child_process';
+import path from 'node:path';
+import {loadEnvironment} from './db-runtime.mjs';
+await loadEnvironment();const source=process.cwd(),{out}=JSON.parse(await readFile('output/stage7-5/platform-8-11-current.json','utf8')),runtime=path.join(out,'runtime'),restored=JSON.parse(await readFile(path.join(out,'regression-restore.json'),'utf8'));
+if(!restored.database.startsWith('aeo_restore_test_'))throw Error('Isolated runtime required');const url=new URL(process.env.DATABASE_URL);url.pathname='/'+restored.database;
+for(const f of ['src/components/platform-intelligence','src/components/workspace.tsx','src/lib/workspace-views.ts','src/lib/platform-intelligence/server','src/app/page.tsx','src/app/os/page.tsx','tests/platform-operations.test.ts','tests/e2e/platform-operations.spec.ts','tests/e2e/platform-default.spec.ts','tests/platform-official-pack.phase.test.ts','playwright.platform.config.ts'])await cp(path.join(source,f),path.join(runtime,f),{recursive:true});
+const env={...process.env,DATABASE_URL:url.href,STORAGE_MODE:'postgres',AEO_FILES_ROOT:restored.filesRoot,PLATFORM_INTELLIGENCE_ENABLED:'false',PLATFORM_INTELLIGENCE_PERSISTENCE_ENABLED:'false',LIVE_AI_ENABLED:'false',FREE_GEMINI_ENABLED:'false',NEXT_TELEMETRY_DISABLED:'1',AEO_STAGE8_ISOLATED:'1'};const results={};
+for(const [label,args] of [['final-ui-unit',['node_modules/vitest/vitest.mjs','run','tests/platform-operations.test.ts','tests/platform-server.test.ts','tests/platform-official-pack.test.ts']],['final-production-build',['node_modules/next/dist/bin/next','build']],['final-typecheck',['node_modules/typescript/bin/tsc','--noEmit']]]){
+ const r=await new Promise(resolve=>{const child=spawn(process.execPath,args,{cwd:runtime,env,windowsHide:true,stdio:['ignore','pipe','pipe']});let log='';child.stdout.on('data',b=>log+=b);child.stderr.on('data',b=>log+=b);child.on('error',e=>resolve({exitCode:-1,log:e.message}));child.on('exit',exitCode=>resolve({exitCode,log}));});await writeFile(path.join(out,label+'.log'),r.log.replaceAll(url.href,'[ISOLATED_DATABASE_URL]'));results[label]={exitCode:r.exitCode};await writeFile(path.join(out,'final-check-results.json'),JSON.stringify(results,null,2));console.log(label+': '+r.exitCode);if(r.exitCode!==0)throw Error('Final source check failed');
+}

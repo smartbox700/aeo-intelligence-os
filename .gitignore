@@ -29,3 +29,5 @@ output/pdf/
 output/stage7-5/
 *.aeo.enc
 tmp/pdfs/
+
+output/manual-usability/

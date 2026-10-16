@@ -1,0 +1,624 @@
+{
+  "packId": "OFFICIAL_PLATFORM_KNOWLEDGE_PACK",
+  "version": 1,
+  "manifestChecksum": "c2954ea41a4e104720771529ab09ab2aa20011bd6e01e018193d35b429df8b9f",
+  "status": "REVIEW_REQUIRED",
+  "humanApprovalRecorded": false,
+  "facts": [
+    {
+      "knowledgeId": "CHATGPT_OAI_SEARCHBOT_PURPOSE",
+      "version": 1,
+      "platformCode": "CHATGPT",
+      "channelCode": "CHATGPT_WEB_SEARCH",
+      "claim": "OAI-SearchBot은 ChatGPT 검색에서 웹사이트를 발견하고 연결하기 위한 검색 크롤러다.",
+      "draftChecksum": "b8b0e9cfecbe4ec9e64bb7a312329f3f641004d6eced7a1129c650cc5bb33896",
+      "source": {
+        "id": "OPENAI_BOTS",
+        "vendor": "OpenAI",
+        "platform": "CHATGPT",
+        "title": "Overview of OpenAI Crawlers",
+        "officialDomain": "developers.openai.com",
+        "canonicalUrl": "https://developers.openai.com/api/docs/bots",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "검색용 OAI-SearchBot, 학습용 GPTBot, 사용자 요청용 ChatGPT-User는 구분된다. 검색 봇과 학습 봇의 robots 설정은 독립적이다. 검색 봇 접근에는 robots와 네트워크 허용을 확인한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "de5509349fa6842addef9b2648897eb4118df76b6970295ae0f64da9f01764f4"
+      }
+    },
+    {
+      "knowledgeId": "CHATGPT_CRAWLER_ROLE_SEPARATION",
+      "version": 1,
+      "platformCode": "CHATGPT",
+      "channelCode": "CHATGPT_WEB_SEARCH",
+      "claim": "OAI-SearchBot과 GPTBot의 robots 설정은 독립적으로 관리할 수 있다.",
+      "draftChecksum": "038a94541bc24a5daac266e97175ae581b7a01b7bd4b08788b20f7fe8eea8806",
+      "source": {
+        "id": "OPENAI_BOTS",
+        "vendor": "OpenAI",
+        "platform": "CHATGPT",
+        "title": "Overview of OpenAI Crawlers",
+        "officialDomain": "developers.openai.com",
+        "canonicalUrl": "https://developers.openai.com/api/docs/bots",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "검색용 OAI-SearchBot, 학습용 GPTBot, 사용자 요청용 ChatGPT-User는 구분된다. 검색 봇과 학습 봇의 robots 설정은 독립적이다. 검색 봇 접근에는 robots와 네트워크 허용을 확인한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "de5509349fa6842addef9b2648897eb4118df76b6970295ae0f64da9f01764f4"
+      }
+    },
+    {
+      "knowledgeId": "CHATGPT_GPTBOT_TRAINING_PURPOSE",
+      "version": 1,
+      "platformCode": "CHATGPT",
+      "channelCode": "CHATGPT_WEB_SEARCH",
+      "claim": "GPTBot은 모델 학습용 크롤러다.",
+      "draftChecksum": "7634790fd548a25eb6c10dd35c787e4f9096ce85ca8a782bdeb12556fc32a9c9",
+      "source": {
+        "id": "OPENAI_BOTS",
+        "vendor": "OpenAI",
+        "platform": "CHATGPT",
+        "title": "Overview of OpenAI Crawlers",
+        "officialDomain": "developers.openai.com",
+        "canonicalUrl": "https://developers.openai.com/api/docs/bots",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "검색용 OAI-SearchBot, 학습용 GPTBot, 사용자 요청용 ChatGPT-User는 구분된다. 검색 봇과 학습 봇의 robots 설정은 독립적이다. 검색 봇 접근에는 robots와 네트워크 허용을 확인한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "de5509349fa6842addef9b2648897eb4118df76b6970295ae0f64da9f01764f4"
+      }
+    },
+    {
+      "knowledgeId": "CHATGPT_USER_REQUEST_PURPOSE",
+      "version": 1,
+      "platformCode": "CHATGPT",
+      "channelCode": "CHATGPT_WEB_SEARCH",
+      "claim": "ChatGPT-User는 사용자 요청에 따른 페이지 접근에 사용된다.",
+      "draftChecksum": "ef9fb66d36409503c233dedf2c36b04216e48bcfb38a6978d119dfe7d6f642a8",
+      "source": {
+        "id": "OPENAI_BOTS",
+        "vendor": "OpenAI",
+        "platform": "CHATGPT",
+        "title": "Overview of OpenAI Crawlers",
+        "officialDomain": "developers.openai.com",
+        "canonicalUrl": "https://developers.openai.com/api/docs/bots",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "검색용 OAI-SearchBot, 학습용 GPTBot, 사용자 요청용 ChatGPT-User는 구분된다. 검색 봇과 학습 봇의 robots 설정은 독립적이다. 검색 봇 접근에는 robots와 네트워크 허용을 확인한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "de5509349fa6842addef9b2648897eb4118df76b6970295ae0f64da9f01764f4"
+      }
+    },
+    {
+      "knowledgeId": "CHATGPT_SEARCH_ELIGIBILITY_NOT_GUARANTEED",
+      "version": 1,
+      "platformCode": "CHATGPT",
+      "channelCode": "CHATGPT_WEB_SEARCH",
+      "claim": "검색 자격 조건을 충족해도 ChatGPT 검색 결과 배치는 보장되지 않는다.",
+      "draftChecksum": "bed4228a10cbad6695d6eb322884826c34f6704a4c39f3cc0308dfd81391889e",
+      "source": {
+        "id": "OPENAI_SEARCH",
+        "vendor": "OpenAI",
+        "platform": "CHATGPT",
+        "title": "Searching the web with ChatGPT",
+        "officialDomain": "help.openai.com",
+        "canonicalUrl": "https://help.openai.com/en/articles/9237897-searching-the-web-with-chatgpt",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "검색 대상 조건을 충족해도 ChatGPT 검색 결과의 배치는 보장되지 않는다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "8b3625a9b6c0173247ea5ce645b6bd96ea84af9f9cfaeb1a6d52017880171b36"
+      }
+    },
+    {
+      "knowledgeId": "GOOGLE_AI_SUPPORTING_LINK_ELIGIBILITY",
+      "version": 1,
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "claim": "AI Overviews와 AI Mode의 supporting link 자격에는 Google Search 색인과 snippet 표시 자격이 필요하다.",
+      "draftChecksum": "e12b7b687ed3bc62978a7a4be7045ea9e10f06c5d35e143bd9dccfc48cd4cba1",
+      "source": {
+        "id": "GOOGLE_AI_FEATURES",
+        "vendor": "Google",
+        "platform": "GOOGLE_AI",
+        "title": "AI features and your website",
+        "officialDomain": "developers.google.com",
+        "canonicalUrl": "https://developers.google.com/search/docs/appearance/ai-features",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2025-12-10T00:00:00.000Z",
+        "summary": "AI Search 링크 자격은 색인과 snippet 자격을 요구하나 노출을 보장하지 않는다. query fan-out을 사용할 수 있다. 기존 SEO 기본 사항, Googlebot 접근과 텍스트 콘텐츠가 관련된다. 특별한 AI schema나 AI 텍스트 파일은 필요하지 않다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "0e7a10bdd1b2981757e6bc62e767b22f565c8d208bfb80022f5d537d2258eb4e"
+      }
+    },
+    {
+      "knowledgeId": "GOOGLE_AI_QUERY_FANOUT",
+      "version": 1,
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "claim": "AI Overviews와 AI Mode는 하위주제와 데이터 소스에 관련 검색을 수행하는 query fan-out을 사용할 수 있다.",
+      "draftChecksum": "8fa782e812668d6133170d53a1b0b3bf8d3bbea1c9e3362f1ff9ebba3ad7ab6f",
+      "source": {
+        "id": "GOOGLE_AI_FEATURES",
+        "vendor": "Google",
+        "platform": "GOOGLE_AI",
+        "title": "AI features and your website",
+        "officialDomain": "developers.google.com",
+        "canonicalUrl": "https://developers.google.com/search/docs/appearance/ai-features",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2025-12-10T00:00:00.000Z",
+        "summary": "AI Search 링크 자격은 색인과 snippet 자격을 요구하나 노출을 보장하지 않는다. query fan-out을 사용할 수 있다. 기존 SEO 기본 사항, Googlebot 접근과 텍스트 콘텐츠가 관련된다. 특별한 AI schema나 AI 텍스트 파일은 필요하지 않다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "0e7a10bdd1b2981757e6bc62e767b22f565c8d208bfb80022f5d537d2258eb4e"
+      }
+    },
+    {
+      "knowledgeId": "GOOGLE_AI_SEARCH_FOUNDATIONS_RELEVANT",
+      "version": 1,
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "claim": "Google Search의 AI 기능에서도 기존 SEO 기본 사항은 관련된다.",
+      "draftChecksum": "8b551cec1d242e56fbf6374acdb7a113d0e0a20e26f24367bc4f1792a0f5dd60",
+      "source": {
+        "id": "GOOGLE_AI_FEATURES",
+        "vendor": "Google",
+        "platform": "GOOGLE_AI",
+        "title": "AI features and your website",
+        "officialDomain": "developers.google.com",
+        "canonicalUrl": "https://developers.google.com/search/docs/appearance/ai-features",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2025-12-10T00:00:00.000Z",
+        "summary": "AI Search 링크 자격은 색인과 snippet 자격을 요구하나 노출을 보장하지 않는다. query fan-out을 사용할 수 있다. 기존 SEO 기본 사항, Googlebot 접근과 텍스트 콘텐츠가 관련된다. 특별한 AI schema나 AI 텍스트 파일은 필요하지 않다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "0e7a10bdd1b2981757e6bc62e767b22f565c8d208bfb80022f5d537d2258eb4e"
+      }
+    },
+    {
+      "knowledgeId": "GOOGLE_AI_NO_SPECIAL_SCHEMA_REQUIRED",
+      "version": 1,
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "claim": "Google Search의 AI 기능에 등장하기 위한 특별한 AI schema.org markup은 필요하지 않다.",
+      "draftChecksum": "761f6cd8d7d79bbe27565b4956568638d7629d1aa784524166f67359994cf55b",
+      "source": {
+        "id": "GOOGLE_AI_FEATURES",
+        "vendor": "Google",
+        "platform": "GOOGLE_AI",
+        "title": "AI features and your website",
+        "officialDomain": "developers.google.com",
+        "canonicalUrl": "https://developers.google.com/search/docs/appearance/ai-features",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2025-12-10T00:00:00.000Z",
+        "summary": "AI Search 링크 자격은 색인과 snippet 자격을 요구하나 노출을 보장하지 않는다. query fan-out을 사용할 수 있다. 기존 SEO 기본 사항, Googlebot 접근과 텍스트 콘텐츠가 관련된다. 특별한 AI schema나 AI 텍스트 파일은 필요하지 않다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "0e7a10bdd1b2981757e6bc62e767b22f565c8d208bfb80022f5d537d2258eb4e"
+      }
+    },
+    {
+      "knowledgeId": "GOOGLE_AI_NO_AI_TEXT_FILES_REQUIRED",
+      "version": 1,
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "claim": "Google Search의 AI 기능을 위한 별도의 AI 텍스트 파일은 필요하지 않다.",
+      "draftChecksum": "b724a87d5e9dce264400ac46f6f766a91b30f32a61d7bc1b1f2dc14fe447d245",
+      "source": {
+        "id": "GOOGLE_AI_FEATURES",
+        "vendor": "Google",
+        "platform": "GOOGLE_AI",
+        "title": "AI features and your website",
+        "officialDomain": "developers.google.com",
+        "canonicalUrl": "https://developers.google.com/search/docs/appearance/ai-features",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2025-12-10T00:00:00.000Z",
+        "summary": "AI Search 링크 자격은 색인과 snippet 자격을 요구하나 노출을 보장하지 않는다. query fan-out을 사용할 수 있다. 기존 SEO 기본 사항, Googlebot 접근과 텍스트 콘텐츠가 관련된다. 특별한 AI schema나 AI 텍스트 파일은 필요하지 않다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "0e7a10bdd1b2981757e6bc62e767b22f565c8d208bfb80022f5d537d2258eb4e"
+      }
+    },
+    {
+      "knowledgeId": "GOOGLE_AI_IMPORTANT_CONTENT_TEXTUAL",
+      "version": 1,
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "claim": "Google은 중요한 콘텐츠를 텍스트 형태로 제공하도록 안내한다.",
+      "draftChecksum": "2d20c8d9ffb99dd3d416f349f70815f882506d9d085c1ae2558a87464d6992bf",
+      "source": {
+        "id": "GOOGLE_AI_FEATURES",
+        "vendor": "Google",
+        "platform": "GOOGLE_AI",
+        "title": "AI features and your website",
+        "officialDomain": "developers.google.com",
+        "canonicalUrl": "https://developers.google.com/search/docs/appearance/ai-features",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2025-12-10T00:00:00.000Z",
+        "summary": "AI Search 링크 자격은 색인과 snippet 자격을 요구하나 노출을 보장하지 않는다. query fan-out을 사용할 수 있다. 기존 SEO 기본 사항, Googlebot 접근과 텍스트 콘텐츠가 관련된다. 특별한 AI schema나 AI 텍스트 파일은 필요하지 않다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "0e7a10bdd1b2981757e6bc62e767b22f565c8d208bfb80022f5d537d2258eb4e"
+      }
+    },
+    {
+      "knowledgeId": "GOOGLE_AI_CRAWL_CONTROL",
+      "version": 1,
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "claim": "Google Search AI 기능을 위한 크롤링 접근은 robots의 Googlebot 지시로 관리한다.",
+      "draftChecksum": "61ab3448e07640190158c3ab47e3ab522f1518af5622e6c099c1f6f3c48628a7",
+      "source": {
+        "id": "GOOGLE_AI_FEATURES",
+        "vendor": "Google",
+        "platform": "GOOGLE_AI",
+        "title": "AI features and your website",
+        "officialDomain": "developers.google.com",
+        "canonicalUrl": "https://developers.google.com/search/docs/appearance/ai-features",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2025-12-10T00:00:00.000Z",
+        "summary": "AI Search 링크 자격은 색인과 snippet 자격을 요구하나 노출을 보장하지 않는다. query fan-out을 사용할 수 있다. 기존 SEO 기본 사항, Googlebot 접근과 텍스트 콘텐츠가 관련된다. 특별한 AI schema나 AI 텍스트 파일은 필요하지 않다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "0e7a10bdd1b2981757e6bc62e767b22f565c8d208bfb80022f5d537d2258eb4e"
+      }
+    },
+    {
+      "knowledgeId": "GOOGLE_AI_NOINDEX_CONTROL",
+      "version": 1,
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "claim": "noindex는 Google Search 색인을 방지하는 지시어다.",
+      "draftChecksum": "1a85717fd45e72b43a7fe261a9eacf6b4d15b53643a3c73200873f254f1663f1",
+      "source": {
+        "id": "GOOGLE_NOINDEX",
+        "vendor": "Google",
+        "platform": "GOOGLE_AI",
+        "title": "Block Search indexing with noindex",
+        "officialDomain": "developers.google.com",
+        "canonicalUrl": "https://developers.google.com/search/docs/crawling-indexing/block-indexing",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2025-12-10T00:00:00.000Z",
+        "summary": "noindex는 Google Search 색인을 방지한다. Googlebot이 지시어를 읽으려면 크롤링을 허용해야 한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "b051b99630ff12888988d2b62397d5e5d01d5e24cf8705ef6a58d209c94603bc"
+      }
+    },
+    {
+      "knowledgeId": "GEMINI_APPS_SOURCES_MAY_APPEAR",
+      "version": 1,
+      "platformCode": "GEMINI",
+      "channelCode": "GEMINI_CONSUMER_SEARCH",
+      "claim": "Gemini Apps는 응답 내부 또는 아래에 관련 출처 링크를 제공할 수 있다.",
+      "draftChecksum": "88f14e736da614244ce63fe9458e20fbe3c80560403ae0cc1af1afdd5c05e4dc",
+      "source": {
+        "id": "GEMINI_SOURCES",
+        "vendor": "Google",
+        "platform": "GEMINI",
+        "title": "View related sources from Gemini Apps - Computer - Gemini Apps Help",
+        "officialDomain": "support.google.com",
+        "canonicalUrl": "https://support.google.com/gemini/answer/14143489?hl=en",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "Gemini Apps는 응답 안이나 아래에 관련 출처 링크를 제공할 수 있지만 모든 응답에 제공하는 것은 아니다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "3106554567949348af4b1550ef63571a2839b3dc168c0a0e7f7a5e98b7300303"
+      }
+    },
+    {
+      "knowledgeId": "GEMINI_APPS_NOT_ALL_RESPONSES_HAVE_SOURCES",
+      "version": 1,
+      "platformCode": "GEMINI",
+      "channelCode": "GEMINI_CONSUMER_SEARCH",
+      "claim": "Gemini Apps의 모든 응답에 관련 링크나 출처가 포함되는 것은 아니다.",
+      "draftChecksum": "4c48b471380d6e835b041209e80613be0e3a5480e1cc155fafec1b6f59dcc4a8",
+      "source": {
+        "id": "GEMINI_SOURCES",
+        "vendor": "Google",
+        "platform": "GEMINI",
+        "title": "View related sources from Gemini Apps - Computer - Gemini Apps Help",
+        "officialDomain": "support.google.com",
+        "canonicalUrl": "https://support.google.com/gemini/answer/14143489?hl=en",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "Gemini Apps는 응답 안이나 아래에 관련 출처 링크를 제공할 수 있지만 모든 응답에 제공하는 것은 아니다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "3106554567949348af4b1550ef63571a2839b3dc168c0a0e7f7a5e98b7300303"
+      }
+    },
+    {
+      "knowledgeId": "NAVER_AI_BRIEFING_PURPOSE",
+      "version": 1,
+      "platformCode": "NAVER_AI",
+      "channelCode": "NAVER_AI_BRIEFING",
+      "claim": "AI 브리핑은 검색 의도와 맥락을 반영한 요약 답변과 출처 정보, 관련 질문을 제공하는 생성형 AI 기능이다.",
+      "draftChecksum": "6b91536ae64fba2f5a0999a96f57a1f4f27c95f06e7cce48f02cc53f92363170",
+      "source": {
+        "id": "NAVER_INTRO",
+        "vendor": "Naver",
+        "platform": "NAVER_AI",
+        "title": "AI 브리핑 소개 : 네이버 검색 고객센터",
+        "officialDomain": "help.naver.com",
+        "canonicalUrl": "https://help.naver.com/service/5626/contents/24119",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "AI 브리핑은 생성형 AI로 검색 의도와 맥락을 이해하고 요약 답변, 출처 정보와 관련 질문을 제공한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "2e33c7e63c55b29d6273a7cee87c04c9e2f03c4b50c8fb9343a052d2c826a3cd"
+      }
+    },
+    {
+      "knowledgeId": "NAVER_AI_BRIEFING_WEB_DOCUMENT_SOURCE",
+      "version": 1,
+      "platformCode": "NAVER_AI",
+      "channelCode": "NAVER_AI_BRIEFING",
+      "claim": "공식형 및 멀티출처형 AI 브리핑은 네이버 검색엔진이 수집한 웹문서를 분석해 답변과 출처를 제공한다.",
+      "draftChecksum": "b165f87a06ad53d6e361fe4b4705094621f6e6d720f90110ec5b6c8faf5a4b55",
+      "source": {
+        "id": "NAVER_WEB",
+        "vendor": "Naver",
+        "platform": "NAVER_AI",
+        "title": "공식형/멀티출처형 AI 브리핑 : 네이버 검색 고객센터",
+        "officialDomain": "help.naver.com",
+        "canonicalUrl": "https://help.naver.com/service/5626/contents/24120",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "공식형 및 멀티출처형 AI 브리핑은 네이버 검색엔진이 수집한 웹문서를 분석해 답변과 출처를 제공한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "9980896cca7af13ad8517c42296cd331913f215962574f1f5076c7cae63bad5f"
+      }
+    },
+    {
+      "knowledgeId": "CLAUDE_BOT_ROLE_SEPARATION",
+      "version": 1,
+      "platformCode": "CLAUDE",
+      "channelCode": "CLAUDE_WEB_SEARCH",
+      "claim": "Anthropic은 ClaudeBot, Claude-User, Claude-SearchBot을 서로 다른 목적으로 운영한다.",
+      "draftChecksum": "28c1a719b1449cb873caf151972cfec76cb4f8d7ea6860a47cc95d48dd283971",
+      "source": {
+        "id": "CLAUDE_BOTS",
+        "vendor": "Anthropic",
+        "platform": "CLAUDE",
+        "title": "Does Anthropic crawl data from the web, and how can site owners block the crawler?",
+        "officialDomain": "support.claude.com",
+        "canonicalUrl": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2026-04-07T00:00:00.000Z",
+        "summary": "ClaudeBot, Claude-User, Claude-SearchBot의 목적은 구분된다. 검색 봇은 검색 결과 개선에, 사용자 봇은 질문에 따른 페이지 접근에 사용된다. 봇은 robots 지시를 존중한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "3b3508f436f5fd22fbdae7bdf4524c75db9eacb10fa52eda96ef4b59322e3ff0"
+      }
+    },
+    {
+      "knowledgeId": "CLAUDE_SEARCHBOT_PURPOSE",
+      "version": 1,
+      "platformCode": "CLAUDE",
+      "channelCode": "CLAUDE_WEB_SEARCH",
+      "claim": "Claude-SearchBot은 검색 결과의 품질을 개선하기 위해 웹 콘텐츠를 탐색하고 분석한다.",
+      "draftChecksum": "3d61f360b512815e944305c5af56cd07ad3853ba77d2c9452d8b6cd50ba38e5e",
+      "source": {
+        "id": "CLAUDE_BOTS",
+        "vendor": "Anthropic",
+        "platform": "CLAUDE",
+        "title": "Does Anthropic crawl data from the web, and how can site owners block the crawler?",
+        "officialDomain": "support.claude.com",
+        "canonicalUrl": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2026-04-07T00:00:00.000Z",
+        "summary": "ClaudeBot, Claude-User, Claude-SearchBot의 목적은 구분된다. 검색 봇은 검색 결과 개선에, 사용자 봇은 질문에 따른 페이지 접근에 사용된다. 봇은 robots 지시를 존중한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "3b3508f436f5fd22fbdae7bdf4524c75db9eacb10fa52eda96ef4b59322e3ff0"
+      }
+    },
+    {
+      "knowledgeId": "CLAUDE_USER_PURPOSE",
+      "version": 1,
+      "platformCode": "CLAUDE",
+      "channelCode": "CLAUDE_WEB_SEARCH",
+      "claim": "Claude-User는 사용자의 질문에 따른 웹사이트 콘텐츠 접근에 사용된다.",
+      "draftChecksum": "5bfda00576ec317d8858f2a9e9b45c770fb36d15912bc69f067c1a2fa2d1f1f2",
+      "source": {
+        "id": "CLAUDE_BOTS",
+        "vendor": "Anthropic",
+        "platform": "CLAUDE",
+        "title": "Does Anthropic crawl data from the web, and how can site owners block the crawler?",
+        "officialDomain": "support.claude.com",
+        "canonicalUrl": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": "2026-04-07T00:00:00.000Z",
+        "summary": "ClaudeBot, Claude-User, Claude-SearchBot의 목적은 구분된다. 검색 봇은 검색 결과 개선에, 사용자 봇은 질문에 따른 페이지 접근에 사용된다. 봇은 robots 지시를 존중한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "3b3508f436f5fd22fbdae7bdf4524c75db9eacb10fa52eda96ef4b59322e3ff0"
+      }
+    },
+    {
+      "knowledgeId": "CLAUDE_WEB_SEARCH_CITATIONS",
+      "version": 1,
+      "platformCode": "CLAUDE",
+      "channelCode": "CLAUDE_WEB_SEARCH",
+      "claim": "Claude는 웹검색 정보를 사용한 응답에서 출처 인용을 제공한다.",
+      "draftChecksum": "c22c5a7e4d39fd9f799579452cd9824e91650948dca7b153b285c966d7b086d3",
+      "source": {
+        "id": "CLAUDE_SEARCH",
+        "vendor": "Anthropic",
+        "platform": "CLAUDE",
+        "title": "Enable and use web search",
+        "officialDomain": "support.claude.com",
+        "canonicalUrl": "https://support.claude.com/en/articles/10684626-enable-and-use-web-search",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "Claude는 웹검색 정보를 사용한 응답에서 출처 인용을 제공한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "e96f2b14a1c209b3d464082e6f08710cc0f9ad4f6eefb31492ccfdbabb3d29d8"
+      }
+    },
+    {
+      "knowledgeId": "PERPLEXITY_SEARCHBOT_PURPOSE",
+      "version": 1,
+      "platformCode": "PERPLEXITY",
+      "channelCode": "PERPLEXITY_SEARCH",
+      "claim": "PerplexityBot은 Perplexity 검색 결과에 웹사이트를 발견하고 연결하기 위한 크롤러다.",
+      "draftChecksum": "35a49639cc6ece7d9c38c51906c583cb913dd4b53620caef98122a9f7fa1ffad",
+      "source": {
+        "id": "PERPLEXITY_BOTS",
+        "vendor": "Perplexity",
+        "platform": "PERPLEXITY",
+        "title": "Perplexity Crawlers",
+        "officialDomain": "docs.perplexity.ai",
+        "canonicalUrl": "https://docs.perplexity.ai/docs/resources/perplexity-crawlers",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "PerplexityBot은 검색 결과의 사이트 연결을 위한 봇이며 학습용이 아니다. Perplexity-User는 사용자 요청에 따른 접근용이다. 검색 봇의 robots와 네트워크 허용을 안내한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "8460d96da370d19d27ec8f0da61ef848974acf71b1860d4411566936ff9f05ce"
+      }
+    },
+    {
+      "knowledgeId": "PERPLEXITY_USER_PURPOSE",
+      "version": 1,
+      "platformCode": "PERPLEXITY",
+      "channelCode": "PERPLEXITY_SEARCH",
+      "claim": "Perplexity-User는 사용자 요청에 따른 페이지 접근에 사용된다.",
+      "draftChecksum": "4f0da15e8ff682760dccc7706608e8596d1517856a4aefca1867c8ecc42dfd53",
+      "source": {
+        "id": "PERPLEXITY_BOTS",
+        "vendor": "Perplexity",
+        "platform": "PERPLEXITY",
+        "title": "Perplexity Crawlers",
+        "officialDomain": "docs.perplexity.ai",
+        "canonicalUrl": "https://docs.perplexity.ai/docs/resources/perplexity-crawlers",
+        "capturedAt": "2026-10-16T11:34:00.000Z",
+        "lastVerifiedAt": "2026-10-16T11:34:00.000Z",
+        "sourceDate": null,
+        "summary": "PerplexityBot은 검색 결과의 사이트 연결을 위한 봇이며 학습용이 아니다. Perplexity-User는 사용자 요청에 따른 접근용이다. 검색 봇의 robots와 네트워크 허용을 안내한다.",
+        "excerptKind": "INTERNAL_CLAIM_SUMMARY",
+        "excerptHash": "8460d96da370d19d27ec8f0da61ef848974acf71b1860d4411566936ff9f05ce"
+      }
+    }
+  ],
+  "rules": [
+    {
+      "ruleId": "CHATGPT_SEARCHBOT_ACCESS",
+      "platformCode": "CHATGPT",
+      "channelCode": "CHATGPT_WEB_SEARCH",
+      "checkType": "ROBOTS_ACCESS",
+      "knowledgeIds": [
+        "CHATGPT_OAI_SEARCHBOT_PURPOSE"
+      ],
+      "robotsAgent": "OAI-SearchBot"
+    },
+    {
+      "ruleId": "GOOGLE_AI_CRAWL_ACCESS",
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "checkType": "ROBOTS_ACCESS",
+      "knowledgeIds": [
+        "GOOGLE_AI_CRAWL_CONTROL"
+      ],
+      "robotsAgent": "Googlebot"
+    },
+    {
+      "ruleId": "GOOGLE_AI_NOINDEX",
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "checkType": "NOINDEX",
+      "knowledgeIds": [
+        "GOOGLE_AI_NOINDEX_CONTROL",
+        "GOOGLE_AI_SUPPORTING_LINK_ELIGIBILITY"
+      ]
+    },
+    {
+      "ruleId": "GOOGLE_AI_PAGE_TEXT",
+      "platformCode": "GOOGLE_AI",
+      "channelCode": "GOOGLE_AI_SEARCH",
+      "checkType": "PAGE_TEXT_PRESENT",
+      "knowledgeIds": [
+        "GOOGLE_AI_IMPORTANT_CONTENT_TEXTUAL"
+      ]
+    },
+    {
+      "ruleId": "CLAUDE_SEARCHBOT_ACCESS",
+      "platformCode": "CLAUDE",
+      "channelCode": "CLAUDE_WEB_SEARCH",
+      "checkType": "ROBOTS_ACCESS",
+      "knowledgeIds": [
+        "CLAUDE_SEARCHBOT_PURPOSE"
+      ],
+      "robotsAgent": "Claude-SearchBot"
+    },
+    {
+      "ruleId": "PERPLEXITY_SEARCHBOT_ACCESS",
+      "platformCode": "PERPLEXITY",
+      "channelCode": "PERPLEXITY_SEARCH",
+      "checkType": "ROBOTS_ACCESS",
+      "knowledgeIds": [
+        "PERPLEXITY_SEARCHBOT_PURPOSE"
+      ],
+      "robotsAgent": "PerplexityBot"
+    }
+  ],
+  "unsupported": [
+    {
+      "claim": "GOOGLE_AI_CORE_SEARCH_FOUNDATION: core ranking/quality systems와 Search index 전체 의존 관계",
+      "status": "SOURCE_EVIDENCE_INSUFFICIENT",
+      "reason": "확인한 문서의 SEO 및 색인 자격 안내보다 넓은 주장이므로 등록하지 않는다."
+    },
+    {
+      "claim": "GOOGLE_AI_LLMS_TXT_NOT_REQUIRED: llms.txt를 visibility/ranking 신호로 사용하지 않는다",
+      "status": "UNSUPPORTED_AS_OFFICIAL_FACT",
+      "reason": "별도 AI 텍스트 파일 불필요만 등록한다. 확인한 본문에는 llms.txt 명칭이나 ranking 신호 미사용을 직접 명시하지 않는다."
+    },
+    {
+      "claim": "FAQ가 citation을 증가시킨다",
+      "status": "UNSUPPORTED_AS_OFFICIAL_FACT",
+      "reason": "이번에 확인한 공식 문서에서 직접 뒷받침되지 않는다."
+    },
+    {
+      "claim": "Schema가 AI 추천을 증가시킨다",
+      "status": "UNSUPPORTED_AS_OFFICIAL_FACT",
+      "reason": "이번에 확인한 공식 문서에서 직접 뒷받침되지 않는다."
+    },
+    {
+      "claim": "백링크 수가 특정 AI 추천을 증가시킨다",
+      "status": "UNSUPPORTED_AS_OFFICIAL_FACT",
+      "reason": "이번에 확인한 공식 문서에서 직접 뒷받침되지 않는다."
+    },
+    {
+      "claim": "리뷰 숫자가 모든 네이버 AI 추천을 증가시킨다",
+      "status": "UNSUPPORTED_AS_OFFICIAL_FACT",
+      "reason": "이번에 확인한 공식 문서에서 직접 뒷받침되지 않는다."
+    },
+    {
+      "claim": "llms.txt가 Google AI visibility를 증가시킨다",
+      "status": "UNSUPPORTED_AS_OFFICIAL_FACT",
+      "reason": "이번에 확인한 공식 문서에서 직접 뒷받침되지 않는다."
+    },
+    {
+      "claim": "Yeti 허용이 AI 브리핑 추천을 증가시킨다",
+      "status": "UNSUPPORTED_AS_OFFICIAL_FACT",
+      "reason": "이번에 확인한 공식 문서에서 직접 뒷받침되지 않는다."
+    }
+  ],
+  "actions": [],
+  "freshnessPolicy": {
+    "reviewAfterDays": 30,
+    "expireAfterDays": 90,
+    "meaning": "INTERNAL_OPERATIONAL_POLICY"
+  }
+}

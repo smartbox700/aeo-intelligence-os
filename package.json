@@ -17,7 +17,11 @@
     "db:backup:legacy": "node scripts/db-admin.mjs backup",
     "validate:readiness": "node scripts/validate-stage7-5.mjs --clean",
     "db:restart:test": "node scripts/db-persistence-test.mjs",
-    "db:migrate:local": "node scripts/db-migrate-local.mjs"
+    "db:migrate:local": "node scripts/db-migrate-local.mjs",
+    "pi:manual-test:setup": "node scripts/manual-usability.mjs setup",
+    "pi:manual-test:reset": "node scripts/manual-usability.mjs reset",
+    "pi:manual-test:start": "node scripts/manual-usability.mjs start",
+    "pi:manual-test:scenario": "node scripts/manual-usability.mjs scenario"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",

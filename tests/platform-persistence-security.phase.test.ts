@@ -1,0 +1,40 @@
+import {it,expect} from 'vitest';
+import {readFile} from 'node:fs/promises';
+import {prisma,saveProject} from '../src/lib/db';
+import {PostgresPlatformIntelligenceRepository} from '../src/lib/platform-intelligence/persistence';
+import {actor} from './platform-experiment.fixture';
+import {checkedAt} from './platform-insight.fixture';
+import {fact,command} from './platform-knowledge.fixture';
+import {recordPilotConsent} from '../src/lib/pilot-agreement';
+import {proof} from './pilot-fixture';
+it.skipIf(process.env.AEO_PI_PHASE!=='SECURITY')('rechecks staff, project scope, audit integrity and current consent on restored records',async()=>{
+ if(!new URL(process.env.DATABASE_URL!).pathname.startsWith('/aeo_restore_test_')||process.env.AEO_STAGE8_ISOLATED!=='1')throw Error('Isolated database required');
+ const repo=new PostgresPlatformIntelligenceRepository(prisma,{storageMode:'postgres',enabled:'true',persistenceEnabled:'true'}),manifest=JSON.parse(await readFile(process.env.AEO_PI_MANIFEST!,'utf8'));
+ try{
+ for(const role of ['ANALYST','MANAGER','VIEWER'] as const)await prisma.staffUser.create({data:{id:'PI_'+role,namespace:'local',username:'pi-'+role,name:'SYNTHETIC ONLY',passwordHash:'DISABLED_TEST_HASH',role,projectIds:role==='MANAGER'?[manifest.projectId]:[],disabled:false}});
+ await expect(repo.read({id:'UNKNOWN'},'SYNTHETIC',()=>true)).rejects.toThrow('access denied');await expect(repo.read({id:'PI_VIEWER'},'SYNTHETIC',()=>true)).rejects.toThrow('access denied');
+ await expect(repo.read({id:'PI_ANALYST'},'SYNTHETIC',s=>s.project(manifest.projectId))).rejects.toThrow();
+ await expect(repo.read({id:'PI_ANALYST'},'SYNTHETIC',s=>{s.actor.role='OWNER';})).rejects.toThrow();
+ expect(await repo.read({id:'PI_ANALYST'},'SYNTHETIC',s=>s.snapshot().records.every(r=>!r.projectId&&!['INSIGHT','INSIGHT_POLICY'].includes(r.domain)))).toBe(true);
+ await expect(repo.write({id:'PI_ANALYST'},'SYNTHETIC',manifest.revision,{...command(checkedAt),actorId:'PI_ANALYST'},s=>s.knowledge.createDraft({...fact(),knowledgeId:'DENIED'},{...command(checkedAt),actorId:'PI_ANALYST'}))).rejects.toThrow('OWNER');
+ expect(await repo.read({id:'PI_MANAGER'},'SYNTHETIC',s=>s.project(manifest.projectId).id)).toBe(manifest.projectId);
+ await prisma.staffUser.update({where:{id:'PI_MANAGER'},data:{disabled:true}});await expect(repo.read({id:'PI_MANAGER'},'SYNTHETIC',()=>true)).rejects.toThrow('access denied');
+ const raw=await prisma.$queryRawUnsafe<{id:string;reason:string}[]>('SELECT id,reason FROM "PlatformIntelligenceRecord" LIMIT 1');
+ await prisma.$executeRawUnsafe('UPDATE "PlatformIntelligenceRecord" SET reason=$1 WHERE id=$2','TAMPER_TEST',raw[0].id);
+ await expect(repo.read(actor,'SYNTHETIC',()=>true)).rejects.toThrow('integrity');
+ await prisma.$executeRawUnsafe('UPDATE "PlatformIntelligenceRecord" SET reason=$1 WHERE id=$2',raw[0].reason,raw[0].id);
+ const before=await repo.read(actor,'SYNTHETIC',s=>{const e=s.experiments.listByProject(manifest.projectId,s.actor)[0];expect(s.results.getResult(manifest.projectId,e.experimentId,1,s.actor)?.sourceState).toBe('CURRENT');return s.insights.listRuns(s.actor,'INTERNAL_RESEARCH',checkedAt)[0];});expect(before.sourceState).toBe('CURRENT');
+ const p=await repo.read(actor,'SYNTHETIC',s=>structuredClone(s.project(manifest.projectId))),agreement=p.operations!.pilot!.agreements[0];
+ recordPilotConsent(p,{id:agreement.id,category:'INTERNAL_RESEARCH',decision:'REVOKED',scope:'SYNTHETIC withdrawn scope',purpose:'SYNTHETIC withdrawal',from:'2026-10-01',to:'2026-12-31',source:'CLIENT_CONFIDENTIAL',proof:proof()},actor);await prisma.$transaction(tx=>saveProject(tx,p));
+ const after=await repo.read(actor,'SYNTHETIC',s=>s.insights.getRun(before.aggregationId,s.actor,'INTERNAL_RESEARCH',checkedAt)!);expect(after.sourceState).toBe('STALE_BY_CONSENT_CHANGE');expect(after.checksum).toBe(before.checksum);expect(after.projection.distribution).toBeNull();
+ await expect(repo.read(actor,'SYNTHETIC',s=>s.insights.getLineage(before.aggregationId,s.actor,'INTERNAL_RESEARCH',checkedAt))).rejects.toThrow('consent');
+ const original=await repo.read(actor,'SYNTHETIC',s=>s.knowledge.getVersion('FACT_READINESS_TEST_0',1)!);
+ await expect(repo.write(actor,'SYNTHETIC',manifest.revision,command(checkedAt),s=>s.knowledge.createDraft({...fact(),knowledgeId:original.knowledgeId},command(checkedAt)))).rejects.toThrow('Version');
+ await repo.write(actor,'SYNTHETIC',manifest.revision,command(checkedAt),s=>s.knowledge.createDraft({...fact(),knowledgeId:original.knowledgeId,version:2,supersedes:{knowledgeId:original.knowledgeId,version:1}},command(checkedAt)));
+ expect(await repo.read(actor,'SYNTHETIC',s=>s.knowledge.getVersion(original.knowledgeId,1)?.checksum)).toBe(original.checksum);
+ const priorResult=await repo.read(actor,'SYNTHETIC',s=>s.results.listResults(p.id,s.experiments.listByProject(p.id,s.actor)[0].experimentId,s.actor)[0]);
+ const observation=p.responses.find(r=>r.id==='A1')!,originalRaw=observation.rawText;observation.rawText+=' SYNTHETIC SOURCE REVISION';observation.verification!.sourceConfirmed=false;await prisma.$transaction(tx=>saveProject(tx,p));
+ expect(await repo.read(actor,'SYNTHETIC',s=>s.project(p.id).responses.find(r=>r.id==='A1')!.rawText)).toBe(originalRaw);
+ const staleResult=await repo.read(actor,'SYNTHETIC',s=>s.results.listResults(p.id,s.experiments.listByProject(p.id,s.actor)[0].experimentId,s.actor)[0]);expect(staleResult.sourceState).toBe('STALE');expect(staleResult.stored.checksum).toBe(priorResult.stored.checksum);
+ }finally{await prisma.$disconnect();}
+},120000);

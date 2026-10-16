@@ -25,6 +25,7 @@ model Project {
  tasks OptimizationTask[]
  reports Report[]
  batches MeasurementBatch[]
+ platformIntelligenceRecords PlatformIntelligenceRecord[]
 }
 model ClientEntity {
  id String @id
@@ -89,6 +90,7 @@ model AIResponse {
  payload Json
  mentions Mention[]
  citations CitationSource[]
+ platformIntelligenceRecords PlatformIntelligenceRecord[]
 }
 model Mention {
  id String @id @default(cuid())
@@ -123,6 +125,7 @@ model OptimizationTask {
  audit WebsiteAudit @relation(fields:[auditId], references:[id], onDelete:Cascade)
  status String
  payload Json
+ platformIntelligenceRecords PlatformIntelligenceRecord[]
 }
 model Report {
  id String @id @default(cuid())
@@ -156,6 +159,8 @@ model StaffUser {
  disabled Boolean @default(false)
  createdAt DateTime @default(now())
  sessions StaffSession[]
+ platformIntelligenceRecords PlatformIntelligenceRecord[]
+ platformIntelligenceAuditEvents PlatformIntelligenceAuditEvent[]
  @@unique([namespace,username])
 }
 model StaffSession {
@@ -175,4 +180,45 @@ model AccessEvent {
  success Boolean
  at DateTime @default(now())
  @@index([namespace,at])
+}
+
+// Domain-specific strict contracts live in TypeScript; these envelopes do not duplicate legacy sources.
+model PlatformIntelligenceRecord {
+ id String @id
+ environment String
+ domain String
+ stableId String
+ version Int
+ recordRevision Int
+ projectId String?
+ project Project? @relation(fields:[projectId],references:[id],onDelete:Restrict)
+ responseId String?
+ response AIResponse? @relation(fields:[responseId],references:[id],onDelete:Restrict)
+ taskId String?
+ task OptimizationTask? @relation(fields:[taskId],references:[id],onDelete:Restrict)
+ payload Json
+ checksum String
+ envelopeChecksum String
+ contractVersion String
+ registryVersion String
+ createdBy String
+ creator StaffUser @relation(fields:[createdBy],references:[id],onDelete:Restrict)
+ createdAt DateTime @db.Timestamptz(3)
+ reason String
+ previousChecksum String?
+ @@unique([environment,domain,stableId,version])
+ @@index([environment,projectId,domain])
+}
+model PlatformIntelligenceAuditEvent {
+ id String @id
+ environment String
+ revision Int
+ createdBy String
+ creator StaffUser @relation(fields:[createdBy],references:[id],onDelete:Restrict)
+ createdAt DateTime @db.Timestamptz(3)
+ reason String
+ details Json
+ previousChecksum String?
+ checksum String
+ @@unique([environment,revision])
 }

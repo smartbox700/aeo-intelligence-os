@@ -1,0 +1,15 @@
+import {readFile,writeFile,cp,mkdir} from 'node:fs/promises';
+import {spawn} from 'node:child_process';
+import path from 'node:path';
+import {loadEnvironment,connect,connection} from './db-runtime.mjs';
+import {readOnlyState} from './platform-8-0-preservation.mjs';
+await loadEnvironment();const source=process.cwd(),root=path.resolve('output/manual-usability'),mode=process.argv[2]||'browser',u=new URL(process.env.DATABASE_URL),env={...process.env,AEO_MANUAL_SUPPRESS_PASSWORD:'1',NEXT_TELEMETRY_DISABLED:'1'},results={};
+async function run(label,args,extra={}){const r=await new Promise(resolve=>{const c=spawn(process.execPath,args,{cwd:source,env:{...env,...extra},windowsHide:true,stdio:['ignore','pipe','pipe']});let log='';c.stdout.on('data',b=>log+=b);c.stderr.on('data',b=>log+=b);c.on('error',()=>resolve({exitCode:-1,log:'Process start failed'}));c.on('exit',exitCode=>resolve({exitCode,log}));});await writeFile(path.join(root,'validation-'+label+'.log'),r.log.replaceAll(u.href,'[DATABASE_URL_REDACTED]'));results[label]={exitCode:r.exitCode};await writeFile(path.join(root,'validation-'+mode+'-results.json'),JSON.stringify(results,null,2));console.log(label+': '+r.exitCode);return r.exitCode;}
+if(mode==='browser'){
+ for(const scenario of (process.argv[3]?[process.argv[3]]:['initial','all'])){if(await run('seed-'+scenario,['scripts/manual-usability.mjs','scenario',scenario])!==0)break;const manual=new URL(u);manual.pathname='/aeo_manual_usability_test';await run('browser-'+scenario,['node_modules/@playwright/test/cli.js','test','--config','playwright.manual.config.ts'],{DATABASE_URL:manual.href,AEO_MANUAL_REFERENCE_DATABASE_URL:u.href,AEO_MANUAL_BROWSER:'1',AEO_MANUAL_BROWSER_SCENARIO:scenario,NODE_ENV:'development'});await cp(path.join(root,'scenario-result.json'),path.join(root,'verified-'+scenario+'.json'));}
+}else if(mode==='scenarios'){
+ for(const scenario of ['chatgpt-fail','google-mixed','positive','negative','zero','insufficient','insight']){if(await run('seed-'+scenario,['scripts/manual-usability.mjs','scenario',scenario])!==0)break;await cp(path.join(root,'scenario-result.json'),path.join(root,'verified-'+scenario+'.json'));}
+}else if(mode==='regression'){
+ const out=path.join(root,'regression');await mkdir(out,{recursive:true});const prior=JSON.parse(await readFile('output/stage7-5/platform-8-12-current.json'));await cp(path.join(prior.out,'backup.json'),path.join(out,'backup.json'));const db=await connect(connection());try{await writeFile(path.join(out,'source-before.json'),JSON.stringify(await readOnlyState(db)));}finally{await db.end();}await writeFile('output/manual-usability/regression-current.json',JSON.stringify({out}));
+ let s=await readFile('scripts/validate-platform-8-11.mjs','utf8');s=s.replaceAll('output/stage7-5/platform-8-11-current.json','output/manual-usability/regression-current.json');await writeFile('scripts/validate-manual-regression.generated.mjs',s);await run('regression',['scripts/validate-manual-regression.generated.mjs']);
+}else throw Error('Unknown validation mode');

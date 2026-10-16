@@ -1,0 +1,3 @@
+import {defineConfig} from '@playwright/test';
+import {randomUUID} from 'node:crypto';
+export default defineConfig({testDir:'./tests/e2e',testMatch:'platform-operations.spec.ts',globalTeardown:'./tests/e2e/teardown.ts',workers:1,timeout:90000,use:{baseURL:'http://127.0.0.1:3102',browserName:'chromium',channel:'msedge'},webServer:{command:'node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3102',url:'http://127.0.0.1:3102/login',env:{AEO_AUTH_NAMESPACE:'e2e-pi811-'+randomUUID(),LIVE_AI_ENABLED:'false',FREE_GEMINI_ENABLED:'false',PLATFORM_INTELLIGENCE_ENABLED:'true',PLATFORM_INTELLIGENCE_PERSISTENCE_ENABLED:'true'},reuseExistingServer:false,timeout:120000}});
